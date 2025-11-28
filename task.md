@@ -1,0 +1,30 @@
+# Campus TaskFlow Agent - Task List
+
+- [ ] Research and Setup
+    - [x] Identify the correct "Google ADK" library or framework conventions <!-- id: 0 -->
+    - [x] Create project directory structure <!-- id: 1 -->
+    - [ ] Set up virtual environment and dependencies <!-- id: 2 -->
+- [ ] Core Architecture Implementation
+    - [x] Implement `OrchestratorAgent` (SequentialAgent) <!-- id: 3 -->
+    - [x] Implement `PDFExtractionAgent` <!-- id: 4 -->
+    - [x] Implement `TaskParsingAgent` <!-- id: 5 -->
+    - [x] Implement `SummarizationAgent` <!-- id: 6 -->
+    - [x] Implement `FlashcardAgent` <!-- id: 7 -->
+    - [x] Implement `SchedulerAgent` <!-- id: 8 -->
+    - [x] Implement `ValidationAgent` <!-- id: 9 -->
+- [ ] Tool Implementation
+    - [x] Implement `PDFReaderTool` <!-- id: 10 -->
+    - [x] Implement `OCRTool` <!-- id: 11 -->
+    - [x] Implement `DateParserTool` <!-- id: 12 -->
+    - [x] Implement `FlashcardFormatterTool` <!-- id: 13 -->
+    - [x] Implement `StudyPlanFormatterTool` <!-- id: 14 -->
+    - [x] Implement `EmbeddingSearchTool` <!-- id: 15 -->
+    - [x] Implement `CalendarTool` <!-- id: 16 -->
+- [ ] Memory & State Management
+    - [x] Implement ADK MemoryBank (Vector + Session) <!-- id: 17 -->
+- [ ] User Interface
+    - [x] Build Streamlit Frontend <!-- id: 18 -->
+- [ ] Verification & Deployment
+    - [x] Create deterministic tests <!-- id: 19 -->
+    - [x] Create README and Architecture Diagram <!-- id: 20 -->
+    - [x] Create Deployment Config (Cloud Run) <!-- id: 21 -->

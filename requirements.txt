@@ -1,0 +1,11 @@
+streamlit
+pymupdf
+pytesseract
+pillow
+python-dateutil
+pydantic
+google-generativeai
+google-generativeai
+streamlit-extras
+numpy
+streamlit-option-menu
