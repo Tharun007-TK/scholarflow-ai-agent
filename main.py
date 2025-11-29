@@ -235,5 +235,25 @@ async def chat(request: ChatRequest):
         print(f"Chat error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# --- Static Files (Must be last) ---
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Mount static files (JS, CSS, Images)
+if os.path.exists("frontend/out"):
+    app.mount("/_next", StaticFiles(directory="frontend/out/_next"), name="next")
+    # app.mount("/static", StaticFiles(directory="frontend/out/static"), name="static") # If you have a static folder
+
+    # Catch-all for SPA routing (serve index.html)
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        # Check if file exists in out directory (e.g. favicon.ico)
+        file_path = os.path.join("frontend/out", full_path)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        
+        # Otherwise return index.html
+        return FileResponse("frontend/out/index.html")
+
 if __name__ == "__main__":
     uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)

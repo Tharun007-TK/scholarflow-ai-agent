@@ -54,4 +54,28 @@ If you want to deploy **right now** with minimal code changes:
 2.  **Backend**: Deploy the root directory to **Render** (it supports persistent web services).
 3.  **Connect**: Set `NEXT_PUBLIC_API_URL` in Vercel to point to your Render backend URL.
 
-This avoids the need to rewrite the entire app for serverless immediately.
+## 6. 🐳 Docker Deployment (Google Cloud Run)
+
+For a simplified "single container" deployment where Frontend and Backend run together:
+
+1.  **Build the Container**
+    ```bash
+    docker build -t gcr.io/YOUR_PROJECT_ID/scholarflow .
+    ```
+
+2.  **Push to Container Registry**
+    ```bash
+    docker push gcr.io/YOUR_PROJECT_ID/scholarflow
+    ```
+
+3.  **Deploy to Cloud Run**
+    ```bash
+    gcloud run deploy scholarflow \
+      --image gcr.io/YOUR_PROJECT_ID/scholarflow \
+      --platform managed \
+      --allow-unauthenticated \
+      --set-env-vars GOOGLE_API_KEY=your_key,GOOGLE_CLIENT_ID=your_id,GOOGLE_CLIENT_SECRET=your_secret
+    ```
+
+This method is easiest because you don't need to manage separate frontend/backend services.
+
