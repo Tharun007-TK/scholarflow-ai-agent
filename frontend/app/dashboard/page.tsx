@@ -1,8 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, CheckSquare, Layers, BookOpen, ExternalLink, Link as LinkIcon, Loader2 } from "lucide-react"
 
 // Simple Card Component since we don't have shadcn/ui installed fully yet
