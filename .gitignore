@@ -10,7 +10,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+
 lib64/
 parts/
 sdist/
@@ -38,4 +38,27 @@ vector_store.json
 *.pdf
 temp/
 logs/
+
+# Next.js
+.next/
+out/
+node_modules/
+.pnp
+.pnp.js
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Secrets
+client_secret.json
+credentials.json
+token.json
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Misc
 .DS_Store
+*.log

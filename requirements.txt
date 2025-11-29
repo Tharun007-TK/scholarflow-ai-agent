@@ -5,7 +5,11 @@ pillow
 python-dateutil
 pydantic
 google-generativeai
-google-generativeai
 streamlit-extras
 numpy
 streamlit-option-menu
+fastapi
+uvicorn
+python-multipart
+google-auth-oauthlib
+google-api-python-client

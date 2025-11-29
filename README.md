@@ -7,7 +7,8 @@
 **Autonomous Academic Workflow Automation**  
 *Powered by Google Gemini 2.5 & Agent Development Kit (ADK)*
 
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io)
+[![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white)](https://ai.google.dev/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
@@ -28,6 +29,7 @@ Students are overwhelmed with unstructured information—syllabi, lecture notes,
 3.  **Summarize** complex topics into key takeaways.
 4.  **Generate** active recall flashcards.
 5.  **Answer** your questions via a RAG-powered chat.
+6.  **Automate** your calendar by directly adding study sessions to Google Calendar.
 
 ---
 
@@ -40,35 +42,43 @@ Students are overwhelmed with unstructured information—syllabi, lecture notes,
 | **🧠 AI Summarization** | Uses **Gemini 2.5 Pro** to generate concise executive summaries and bulleted key points. |
 | **📇 Smart Flashcards** | Automatically generates Q/A flashcards tagged by topic for efficient revision. |
 | **💬 RAG Chat** | "Chat with your Document" using a custom NumPy-based vector store and **Gemini Embeddings**. |
-| **📊 Pro Dashboard** | A modern Streamlit UI with metrics, history tracking, and a clean professional design. |
+| **📆 Google Calendar Integration** | Seamlessly adds study sessions to your Google Calendar with a single click. |
+| **📊 Modern Dashboard** | A sleek, responsive Next.js UI with dark mode, history tracking, and real-time updates. |
 
 ---
 
 ## 🛠️ Architecture
 
-ScholarFlow AI utilizes a sequential multi-agent pipeline built on Google ADK primitives.
+ScholarFlow AI utilizes a modern decoupled architecture with a FastAPI backend and Next.js frontend.
 
 ```mermaid
 graph TD
-    User[User Uploads PDF] --> Orchestrator[Orchestrator Agent]
+    User[User Uploads PDF] --> Frontend[Next.js Frontend]
+    Frontend --> API[FastAPI Backend]
+    API --> Orchestrator[Orchestrator Agent]
     Orchestrator --> Extractor[PDF Extraction Agent]
     Extractor --> Parser[Task Parsing Agent]
     Parser --> Scheduler[Scheduler Agent]
     Extractor --> Summarizer[Summarization Agent]
     Summarizer --> Flashcard[Flashcard Agent]
     Flashcard --> Validator[Validation Agent]
-    Validator --> UI[Streamlit Dashboard]
+    Validator --> Store[Global State Store]
+    Store --> Frontend
     
     subgraph "RAG Pipeline"
     Extractor --> VectorStore[NumPy Vector Store]
     VectorStore <--> Chat[Chat Interface]
+    end
+
+    subgraph "Integrations"
+    Scheduler --> GCal[Google Calendar API]
     end
 ```
 
 ### Core Agents
 - **OrchestratorAgent**: Manages the lifecycle and state of the pipeline.
 - **PDFExtractionAgent**: Handles file processing, OCR, and RAG indexing.
-- **TaskParsingAgent**: Identifies actionable items (assignments, exams) and dates.
+- **TaskParsingAgent**: Identifies actionable items (assignments, exams) and dates using LLMs.
 - **SummarizationAgent**: Synthesizes content using LLMs.
 - **FlashcardAgent**: Generates study aids.
 - **SchedulerAgent**: Optimizes time management based on extracted dates.
@@ -80,7 +90,8 @@ graph TD
 
 ### Prerequisites
 - Python 3.10 or higher
-- A Google Cloud Project with Gemini API access
+- Node.js 18+ and npm
+- A Google Cloud Project with Gemini API access and Google Calendar API enabled.
 
 ### Steps
 
@@ -90,37 +101,54 @@ graph TD
     cd scholarflow-ai
     ```
 
-2.  **Create Virtual Environment**
+2.  **Backend Setup**
     ```bash
+    # Create virtual environment
     python -m venv venv
-    # Windows
+    
+    # Activate (Windows)
     .\venv\Scripts\activate
-    # Mac/Linux
+    # Activate (Mac/Linux)
     source venv/bin/activate
-    ```
-
-3.  **Install Dependencies**
-    ```bash
+    
+    # Install dependencies
     pip install -r requirements.txt
     ```
+
+3.  **Frontend Setup**
+    ```bash
+    cd frontend
+    npm install
+    cd ..
+    ```
+
+4.  **Google Cloud Credentials**
+    - Place your `client_secret.json` (for Google Calendar) in the project root.
+    - Obtain a Google Gemini API Key.
 
 ---
 
 ## 🏃 Usage
 
-1.  **Launch the Application**
+1.  **Start the Backend**
     ```bash
-    streamlit run campus_taskflow/ui/app.py
+    # In the root directory
+    uvicorn api:app --reload
     ```
 
-2.  **Configure API Key**
-    - The app will open in your browser (usually `http://localhost:8501`).
-    - Open the **Sidebar**.
-    - Enter your **Google Gemini API Key** in the settings panel.
+2.  **Start the Frontend**
+    ```bash
+    # In the frontend directory
+    npm run dev
+    ```
 
-3.  **Start Automating**
-    - **Upload**: Drag & drop your PDF (Syllabus, Notes, Paper).
-    - **Run**: Click **Start TaskFlow Pipeline**.
+3.  **Access the App**
+    - Open `http://localhost:3000` in your browser.
+    - Go to **Settings** (Sidebar) and enter your **Google Gemini API Key**.
+    - Go to **Dashboard** and click **"Connect Calendar"** to enable Google Calendar integration.
+
+4.  **Start Automating**
+    - **Upload**: Drag & drop your PDF (Syllabus, Notes, Paper) on the Home page.
     - **View**: Explore the **Dashboard** for your schedule, summary, and flashcards.
     - **Chat**: Use the **Chat** tab to ask specific questions about the document.
 
@@ -130,8 +158,9 @@ graph TD
 
 - **LLM**: Google Gemini 2.5 Pro
 - **Embeddings**: Google Gemini Text Embeddings 004
+- **Backend**: FastAPI, Python 3.10+
+- **Frontend**: Next.js 14, Tailwind CSS, Lucide Icons
 - **Framework**: Google Agent Development Kit (Custom Implementation)
-- **Frontend**: Streamlit + Streamlit Extras
 - **Vector Store**: Custom NumPy-based Store (Lightweight & Fast)
 - **PDF Processing**: PyMuPDF, PyTesseract
 
@@ -141,14 +170,18 @@ graph TD
 
 ```
 scholarflow-ai/
-├── campus_taskflow/
-│   ├── adk/                 # Core Agent Development Kit primitives
-│   ├── agents/              # Specialized Agents (Orchestrator, Extractor, etc.)
-│   ├── tools/               # Tools (PDF Reader, Search, Date Parser)
-│   └── ui/                  # Streamlit User Interface
+├── api.py                   # FastAPI Backend Entry Point
+├── campus_taskflow/         # Core Agent Logic
+│   ├── adk/                 # Agent Development Kit primitives
+│   ├── agents/              # Specialized Agents
+│   └── tools/               # Tools (PDF Reader, Search, Date Parser)
+├── frontend/                # Next.js Frontend Application
+│   ├── app/                 # App Router Pages
+│   ├── components/          # UI Components
+│   └── public/              # Static Assets
 ├── tests/                   # Unit tests
-├── requirements.txt         # Project dependencies
-└── main.py                  # CLI Entry point
+├── requirements.txt         # Python dependencies
+└── client_secret.json       # Google OAuth Credentials (Ignored)
 ```
 
 ---
