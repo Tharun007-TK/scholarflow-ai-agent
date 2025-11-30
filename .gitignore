@@ -10,7 +10,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-
 lib64/
 parts/
 sdist/
@@ -21,13 +20,15 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.pytest_cache/
+.mypy_cache/
 
 # Virtual Environment
 venv/
 env/
 ENV/
-.env
 .venv
+.env
 
 # Streamlit
 .streamlit/secrets.toml
@@ -39,20 +40,19 @@ vector_store.json
 temp/
 logs/
 
-# Next.js
-.next/
-out/
+# Node / Next.js artifacts
 node_modules/
 .pnp
 .pnp.js
 yarn-error.log
-yarn.lock
+frontend/.next/
+frontend/out/
+frontend/node_modules/
 
 # Secrets
 client_secret.json
 credentials.json
 token.json
-.env
 .env.local
 .env.development.local
 .env.test.local
@@ -61,3 +61,4 @@ token.json
 # Misc
 .DS_Store
 *.log
+.vscode/
